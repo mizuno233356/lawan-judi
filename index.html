@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Gerakan Stop Judi</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+  <meta name="color-scheme" content="light dark">
+  <style>
+    :root {
+      --primary: #2539c7;
+      --accent: #ed3759;
+      --soft: #2b344c;
+      --card-bg: rgba(23, 32, 54, 0.95);
+      --card-glass: rgba(32, 44, 74, 0.74);
+      --nav-glass: rgba(22, 28, 44, 0.75);
+      --border: #34436d;
+      --text: #f4f6fd;
+      --text-soft: #b8bed2;
+      --danger: #ed3759;
+      --danger-bg: rgba(237,55,89,0.08);
+      --warning-bg: #262d42;
+      --success: #20c99a;
+      --shadow: 0 4px 24px 0 rgba(33,44,74,0.10);
+      --glass-blur: blur(8px);
+      --gradient: linear-gradient(108deg, #23335a 0%, #1e2747 82%, #293583 100%);
+      --link: #45a1ff;
+      --white: #fff;
+    }
+    [data-theme="light"] {
+      --primary: #3256cd;
+      --accent: #ed3759;
+      --soft: #e8eaf2;
+      --card-bg: rgba(255,255,255,0.93);
+      --card-glass: rgba(241, 245, 255, 0.80);
+      --nav-glass: rgba(255,255,255,0.8);
+      --border: #c2d1ed;
+      --text: #172240;
+      --text-soft: #647099;
+      --danger: #be2346;
+      --danger-bg: #ffecf0;
+      --warning-bg: #f5f8fe;
+      --success: #18af7b;
+      --shadow: 0 4px 32px 0 rgba(46,58,102,0.06);
+      --glass-blur: blur(5px);
+      --gradient: linear-gradient(112deg, #eaf1fa 0%, #dbe9fc 86%, #a3bfff 100%);
+      --link: #304ff0;
+      --white: #1e293b;
+    }
+    body {
+      margin: 0;
+      font-family: 'Montserrat', Arial, sans-serif;
+      min-height: 100vh;
+      background: var(--gradient);
+      color: var(--text);
+      transition: background .6s cubic-bezier(.82,0,.18,1), color .4s;
+      opacity: 0;
+      animation: fadeInBody .7s cubic-bezier(.82,.02,.44,1.12) 0.1s forwards;
+    }
+    @keyframes fadeInBody {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    header {
+      width: 100%;
+      background: var(--nav-glass);
+      position: sticky; top:0; z-index:40;
+      backdrop-filter: var(--glass-blur);
+      box-shadow: 0 6px 24px 0 rgba(0,0,0,0.10);
+      border-bottom: 1.5px solid var(--border);
+      transition: background .4s;
+      animation: fadeDown .9s cubic-bezier(.6,0,.24,1.1) 0.11s both;
+    }
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-18px);}
+      to   { opacity: 1; transform: none;}
+    }
+    .nav-bar {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 1.08rem 1.7rem 1.08rem 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: relative;
+    }
+    .logo {
+      font-size: 1.43rem;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      color: var(--primary);
+      display: flex; align-items: center; gap:.49em;
+      user-select: none;
+      text-shadow: 0 2px 16px #242a5c1a;
+      cursor: pointer;
+      opacity: 0;
+      transform: translateY(10px);
+      animation: fadeLogo 1.1s .2s forwards;
+    }
+    @keyframes fadeLogo {
+      to { opacity:1; transform:none;}
+    }
+    nav {
+      display: flex;
+      align-items: center;
+      gap: .25rem;
+    }
+    .nav-btn {
+      background: none;
+      border: none;
+      padding: 0.49rem 1.14rem;
+      font-weight: 600;
+      font-size: 1rem;
+      color: var(--primary);
+      border-radius: 1.2em;
+      cursor: pointer;
+      transition: 
+        background .16s, color .16s, 
+        box-shadow .16s, transform .12s;
+      margin-right: 0.2rem;
+      opacity: 0.93;
+      letter-spacing: .01em;
+    }
+    .nav-btn.active, .nav-btn:focus, .nav-btn:hover {
+      background: var(--primary);
+      color: #fff;
+      box-shadow: 0 2px 10px 0 #2539c733;
+      outline: none;
+      transform: scale(1.04);
+    }
+    .toggle-btn {
+      background: var(--soft);
+      border: none;
+      border-radius: 999px;
+      font-size: 1.11rem;
+      padding: 0.49rem 1.18rem;
+      cursor: pointer;
+      color: var(--primary);
+      margin-left: 0.68rem;
+      transition: background .2s, color .2s, transform .11s;
+      box-shadow: 0 2px 9px 0 #2539c718;
+      letter-spacing: .01em;
+      opacity: 0.89;
+    }
+    .toggle-btn:hover { transform: scale(1.08);}
+    main {
+      max-width: 690px;
+      margin: 2.3rem auto 2.3rem;
+      padding: 2.4rem 2.1rem 2.6rem;
+      background: var(--card-glass);
+      border-radius: 2.2rem;
+      box-shadow: var(--shadow);
+      min-height: 420px;
+      transition: background .5s cubic-bezier(.7,0,.25,1);
+      position: relative;
+      backdrop-filter: var(--glass-blur);
+      border: 1.6px solid var(--border);
+      overflow: hidden;
+      animation: fadeUp .8s cubic-bezier(.65,0,.32,1.07) .21s both;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(34px);}
+      to   { opacity: 1; transform: none;}
+    }
+    h1 {
+      font-size: 2.05rem;
+      letter-spacing: -1.5px;
+      font-weight: 700;
+      margin-bottom: 1.1rem;
+      margin-top: 0;
+      line-height: 1.23;
+      color: var(--primary);
+      text-shadow: 0 1px 18px #0d2e5836;
+      opacity: 0;
+      transform: translateY(15px);
+      animation: fadeTitle .9s .28s both;
+    }
+    @keyframes fadeTitle {
+      to { opacity: 1; transform:none;}
+    }
+    h2 {
+      font-size: 1.19rem;
+      font-weight: 700;
+      margin-top: 2.1rem;
+      margin-bottom: 0.5rem;
+      color: var(--primary);
+      line-height: 1.45;
+    }
+    h3 {
+      font-size: 1.09rem;
+      font-weight: 600;
+      margin-bottom: 0.7rem;
+      margin-top: 2.1rem;
+      letter-spacing: -.05px;
+      color: var(--primary);
+      line-height: 1.24;
+    }
+    .motivasi {
+      margin-bottom: 1.4rem;
+      margin-top: 0.5rem;
+    }
+    .motivasi blockquote {
+      font-size: 1.13rem;
+      margin: 1.7rem 0;
+      padding: 1.13rem 1rem 1.13rem 1.3rem;
+      border-left: 4px solid var(--primary);
+      background: rgba(60,75,128,0.10);
+      border-radius: 1.2rem;
+      font-style: italic;
+      line-height: 1.6;
+      color: var(--text);
+      box-shadow: 0 2px 9px 0 #232c4a10;
+      opacity: 0;
+      transform: translateY(24px);
+      animation: fadeMotivasi 1.1s cubic-bezier(.61,.05,.33,1.13) forwards;
+    }
+    .motivasi blockquote:not(:last-child) { margin-bottom: 2.2rem; }
+    .motivasi blockquote:nth-child(1){animation-delay:.18s;}
+    .motivasi blockquote:nth-child(2){animation-delay:.28s;}
+    .motivasi blockquote:nth-child(3){animation-delay:.37s;}
+    .motivasi blockquote:nth-child(4){animation-delay:.44s;}
+    .motivasi blockquote:nth-child(5){animation-delay:.55s;}
+    .motivasi blockquote:nth-child(6){animation-delay:.66s;}
+    @keyframes fadeMotivasi {
+      to {opacity:1; transform:none;}
+    }
+    .danger-section {
+      background: var(--danger-bg);
+      color: var(--danger);
+      border-left: 5px solid var(--danger);
+      padding: 1.08rem 1.3rem 1.05rem 1.5rem;
+      margin-bottom: 1.7rem;
+      border-radius: 1.05rem;
+      font-size: 1.08rem;
+      font-weight: 600;
+      line-height: 1.62;
+      letter-spacing: .01em;
+      margin-top: 0.4rem;
+      animation: fadeInBox 1s .4s both;
+      box-shadow: 0 1.5px 12px 0 #ed375919;
+    }
+    @keyframes fadeInBox {
+      from {opacity:0; transform: translateY(20px);}
+      to {opacity:1; transform:none;}
+    }
+    .danger-section strong { color: var(--danger);}
+    .bahaya-list {
+      margin: 1.03rem 0 0.2rem 0.6rem;
+      padding: 0 0 0 1rem;
+      color: var(--danger);
+    }
+    .bahaya-list li {
+      margin-bottom: 0.58rem;
+      font-weight: 500;
+      font-size: .98rem;
+      line-height: 1.5;
+    }
+    .nasehat-item {
+      background: rgba(62,72,100,0.10);
+      margin-bottom: 1.23rem;
+      padding: 1.06rem 1.1rem 1.06rem 1.13rem;
+      border-radius: 1.1rem;
+      box-shadow: 0 2px 12px 0 #2431770a;
+      border-left: 4px solid var(--primary);
+      font-size: 1.06rem;
+      line-height: 1.6;
+      margin-top: 0.8rem;
+      color: var(--text);
+      font-weight: 500;
+      transition: background .3s, color .3s;
+      animation: fadeUpBox .7s .7s both;
+    }
+    @keyframes fadeUpBox {
+      from {opacity:0; transform:translateY(25px);}
+      to {opacity:1; transform:none;}
+    }
+    .nasehat-item .kitab {font-weight: 700; font-size: 1.08rem;}
+    .nasehat-item .kutipan {font-style: italic;}
+    .tokoh-list,
+    .tokoh-list li {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .tokoh-list {
+      margin-bottom: 1.1rem;
+      margin-top: 0.2rem;
+    }
+    .tokoh-list li {
+      margin-bottom: 0.93rem;
+      background: rgba(62,72,100,0.10);
+      padding: 0.81rem 1rem 0.86rem 1.08rem;
+      border-radius: .96rem;
+      font-size: 1.02rem;
+      box-shadow: 0 1px 6px 0 #232c4a10;
+      color: var(--text);
+      line-height: 1.53;
+      font-weight: 500;
+      animation: fadeInList 1s both;
+    }
+    @keyframes fadeInList {
+      from {opacity:0; transform:translateY(16px);}
+      to {opacity:1; transform:none;}
+    }
+    .highlight-warning {
+      background: var(--danger);
+      color: #fff;
+      font-weight: bold;
+      padding: 0.97rem 1.18rem;
+      border-radius: 1rem;
+      text-align: center;
+      margin-top: 1.6rem;
+      margin-bottom: 0.9rem;
+      font-size: 1.13rem;
+      letter-spacing: .03px;
+      line-height: 1.53;
+      box-shadow: 0 3px 18px 0 rgba(191,43,43,0.09);
+      animation: fadeInBox 1.2s .8s both;
+    }
+    .aksi-section {
+      margin-top: 1.3rem;
+      text-align: center;
+      padding: .7rem 0 0.5rem;
+      border-top: 1px solid var(--border);
+      opacity: 0.98;
+    }
+    .aksi-title {
+      color: var(--primary);
+      font-weight: bold;
+      font-size: 1.05rem;
+      margin-bottom: 0.54rem;
+      display: block;
+    }
+    .aksi-link {
+      display: inline-block;
+      margin: 0.11rem 0.7rem 0.14rem 0;
+      padding: 0.5rem 1.1rem;
+      color: #fff;
+      background: var(--primary);
+      border-radius: 999px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: background .12s, box-shadow .13s, color .13s;
+      box-shadow: 0 2px 7px 0 #2539c72c;
+      font-size: 1rem;
+      letter-spacing: .01em;
+      margin-bottom: 0.21rem;
+      border: 1.2px solid transparent;
+    }
+    .aksi-link:hover {
+      background: #fff;
+      color: var(--primary);
+      border: 1.2px solid var(--primary);
+      box-shadow: 0 2px 12px 0 #2331771a;
+    }
+    footer {
+      text-align: center;
+      font-size: .98rem;
+      padding: 1.4rem 0 1.08rem;
+      opacity: .81;
+      margin-top: 1.2rem;
+      color: var(--text-soft);
+    }
+    @media (max-width: 700px) {
+      main {padding: 1.09rem 0.07rem;}
+      .nav-bar {padding: 0.83rem 0.19rem;}
+      .logo {font-size:1.1rem;}
+      .nasehat-item {padding: 0.89rem 0.54rem 0.92rem 0.61rem;}
+      .tokoh-list li {padding: 0.68rem 0.38rem 0.68rem 0.59rem;}
+      .danger-section {padding: 0.89rem 0.39rem 0.85rem 0.72rem;}
+    }
+  </style>
+</head>
+<body data-theme="dark">
+  <header>
+    <div class="nav-bar">
+      <div class="logo">
+        <span>🚫</span>Stop Judi
+      </div>
+      <nav>
+        <button id="btnSambutan" class="nav-btn active">Sambutan</button>
+        <button id="btnNasehat" class="nav-btn">Nasehat</button>
+        <button id="toggleTheme" class="toggle-btn" aria-label="Toggle theme">☀️</button>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- Halaman 1: Sambutan -->
+    <section id="sectionSambutan">
+      <h1>Selamat Datang di Gerakan Stop Judi</h1>
+      <div class="motivasi">
+        <blockquote>“Jangan biarkan masa depanmu hancur hanya demi kesenangan sesaat. Hidupmu jauh lebih berharga dari semua taruhan dunia.”</blockquote>
+        <blockquote>“Setiap hari adalah kesempatan untuk berubah, bangkit, dan memulai hidup baru yang lebih baik.”</blockquote>
+        <blockquote>“Lepaskan ketergantunganmu, karena hidupmu terlalu istimewa untuk dikorbankan pada judi.”</blockquote>
+        <blockquote>“Judi hanya memberi janji semu, namun pasti membawa duka yang nyata.”</blockquote>
+        <blockquote>“Jangan biarkan keluarga, cinta, dan kebahagiaanmu dikorbankan demi harapan palsu.”</blockquote>
+        <blockquote>“Berhenti berjudi bukan hanya soal kehilangan uang, tapi tentang menyelamatkan masa depan.”</blockquote>
+      </div>
+      <h2>Jadilah Pahlawan Untuk Hidupmu Sendiri</h2>
+      <p style="margin-top:1.2rem;font-size:1.13rem;line-height:1.75;">
+        Hari ini adalah awal baru. Ambil langkah kecil, namun berarti, untuk meninggalkan judi.<br>
+        Masa depan cerah menantimu!
+      </p>
+    </section>
+
+    <!-- Halaman 2: Peringatan, Bahaya, Kutipan, Tokoh -->
+    <section id="sectionNasehat" style="display:none;">
+      <div class="danger-section">
+        <strong>PERINGATAN KERAS!</strong> Judi dan slot bukan jalan keluar, tapi jalan kehancuran.
+        <ul class="bahaya-list">
+          <li><b>Merusak keuangan:</b> Uang habis, hutang menumpuk, keluarga menderita.</li>
+          <li><b>Menghancurkan keluarga:</b> Menyebabkan kebohongan, pertengkaran, perceraian, bahkan penelantaran anak.</li>
+          <li><b>Membunuh masa depan:</b> Menutup kesempatan sukses, reputasi hancur, kehilangan kepercayaan orang-orang terdekat.</li>
+          <li><b>Membahayakan mental:</b> Memicu stres, depresi, kecanduan, hingga tindakan nekat.</li>
+          <li><b>Melanggar hukum:</b> Judi online itu ilegal. Bisa berujung pidana penjara.</li>
+        </ul>
+        <span>
+          <b>Jangan sekali-sekali coba-coba!</b>  
+          Berhenti sekarang juga sebelum terlambat.
+        </span>
+      </div>
+
+      <h3>Larangan Judi Secara Tegas:</h3>
+      <div class="nasehat-item">
+        <span><b>“Judi hanya akan membawa penyesalan, kehilangan, dan kehancuran. Tidak ada satu pun kebaikan di dalamnya.”</b></span>
+      </div>
+      <div class="nasehat-item">
+        <span><b>“Slot dan judi online adalah tipu daya modern yang memiskinkan, menghancurkan harapan, dan menumbuhkan kecanduan.”</b></span>
+      </div>
+      <div class="nasehat-item">
+        <span><b>“Hentikan sekarang! Jangan korbankan keluarga, harga diri, dan kebahagiaanmu demi sensasi sesaat yang berujung petaka.”</b></span>
+      </div>
+
+      <!-- Kutipan Kitab Suci -->
+      <h3 style="margin-top:2.1rem;">Larangan Judi di Kitab Suci:</h3>
+      <div class="nasehat-item">
+        <span class="kitab">Islam (Quran):</span><br>
+        <span class="kutipan">
+          “Hai orang-orang yang beriman, sesungguhnya (meminum) khamar, berjudi... adalah perbuatan keji termasuk perbuatan syaitan. Maka jauhilah perbuatan-perbuatan itu agar kamu mendapat keberuntungan.”
+        </span><br>
+        <span style="font-size:.98rem;font-weight:bold;">(QS. Al-Ma’idah: 90)</span>
+      </div>
+      <div class="nasehat-item">
+        <span class="kitab">Kristen (Alkitab):</span><br>
+        <span class="kutipan">
+          “Sebab akar segala kejahatan ialah cinta uang. Sebab oleh memburu uanglah beberapa orang telah menyimpang dari iman dan menyiksa dirinya dengan berbagai duka.”
+        </span><br>
+        <span style="font-size:.98rem;font-weight:bold;">(1 Timotius 6:10)</span>
+      </div>
+      <div class="nasehat-item">
+        <span class="kitab">Hindu (Rigveda):</span><br>
+        <span class="kutipan">
+          “Dadu yang jahat membawa banyak kehancuran. Ia memerangkap mereka yang duduk bermain, membuat mereka meninggalkan istri, anak, dan harta benda.”
+        </span><br>
+        <span style="font-size:.98rem;font-weight:bold;">(Rigveda 10.34.7)</span>
+      </div>
+      <div class="nasehat-item">
+        <span class="kitab">Buddha (Tipitaka):</span><br>
+        <span class="kutipan">
+          “Ada enam kerugian dalam berjudi: jika menang, akan menimbulkan kebencian; jika kalah, kehilangan kekayaan; dalam segala situasi kehilangan harta, waktu, dan pertemanan.”
+        </span><br>
+        <span style="font-size:.98rem;font-weight:bold;">(Digha Nikaya III.182)</span>
+      </div>
+      <div class="nasehat-item">
+        <span class="kitab">Konghucu:</span><br>
+        <span class="kutipan">
+          “Judi adalah sumber malapetaka dan menyebabkan rusaknya moral keluarga dan masyarakat.”
+        </span><br>
+        <span style="font-size:.98rem;font-weight:bold;">(Analek Konghucu, Ajaran Etika)</span>
+      </div>
+      <div class="nasehat-item">
+        <span class="kitab">Katolik (Paus Fransiskus):</span><br>
+        <span class="kutipan">
+          “Segala bentuk perjudian adalah racun bagi kemanusiaan dan merampas masa depan generasi muda.”
+        </span>
+      </div>
+      <div class="nasehat-item">
+        <span class="kitab">Islam (Hadis):</span><br>
+        <span class="kutipan">
+          “Setiap daging yang tumbuh dari harta haram, maka neraka lebih berhak baginya.” (HR. At-Tirmidzi)
+        </span>
+      </div>
+      <div class="nasehat-item">
+        <span class="kitab">Hindu (Mahabharata):</span><br>
+        <span class="kutipan">
+          “Permainan dadu menyebabkan permusuhan di antara saudara dan membawa kehancuran.”
+        </span>
+      </div>
+      <div class="nasehat-item">
+        <span class="kitab">Buddha (Sutta Nipata):</span><br>
+        <span class="kutipan">
+          “Orang yang terjebak dalam judi akan kehilangan segalanya dan hidupnya dipenuhi penyesalan.”
+        </span>
+      </div>
+
+      <!-- Tokoh Agama -->
+      <h3 style="margin-top:2.1rem;">Kata-Kata Tokoh Lintas Agama:</h3>
+      <ul class="tokoh-list">
+        <li>
+          <b>Ustadz Abdul Somad:</b>
+          <span class="kutipan">
+            "Judi adalah jalan menuju kehancuran. Ia menenggelamkan keluarga, menghancurkan akhlak, dan menjauhkan rahmat Allah."
+          </span>
+        </li>
+        <li>
+          <b>Paus Fransiskus:</b>
+          <span class="kutipan">
+            "Perjudian adalah racun bagi masa depan anak-anak dan memecah belah keluarga."
+          </span>
+        </li>
+        <li>
+          <b>Bhiksu Sri Pannavaro:</b>
+          <span class="kutipan">
+            "Judi memenjarakan batin dan menghilangkan kedamaian. Hanya penderitaan yang didapat."
+          </span>
+        </li>
+        <li>
+          <b>Gus Baha:</b>
+          <span class="kutipan">
+            "Judi itu candu, semakin lama semakin menjerumuskan. Jangan biarkan keluargamu menangis."
+          </span>
+        </li>
+        <li>
+          <b>Pdt. Stephen Tong:</b>
+          <span class="kutipan">
+            "Judi bukan hanya dosa, tapi perusak nilai dan martabat manusia."
+          </span>
+        </li>
+        <li>
+          <b>Romo Mangunwijaya:</b>
+          <span class="kutipan">
+            "Hidup bahagia tak pernah lahir dari perjudian, melainkan dari cinta dan kejujuran."
+          </span>
+        </li>
+        <li>
+          <b>Mahatma Gandhi:</b>
+          <span class="kutipan">
+            "Judi adalah bentuk kekerasan terhadap keluarga dan bangsa. Jangan jadikan kebiasaan buruk sebagai warisan."
+          </span>
+        </li>
+        <li>
+          <b>Bhagavan Sri Sathya Sai Baba:</b>
+          <span class="kutipan">
+            "Judi hanya membawa kehilangan dan penderitaan. Kebahagiaan sejati didapat dengan menjauhi keburukan."
+          </span>
+        </li>
+      </ul>
+      
+      <h3 style="margin-top:2.1rem;">Nasehat Hidup Sehari-hari:</h3>
+      <ul class="tokoh-list">
+        <li>“Berhenti berjudi hari ini, selamatkan keluargamu, dan kembalikan kepercayaan diri.”</li>
+        <li>“Jangan sampai kepercayaan orang-orang yang kamu sayang hilang karena judi.”</li>
+        <li>“Judi takkan pernah memberi kebahagiaan sejati. Pilih hidupmu, bukan perjudian.”</li>
+        <li>“Masa depanmu, anak-anakmu, dan keluarga lebih penting daripada kemenangan sesaat.”</li>
+        <li>“Tidak ada kemenangan dalam judi, yang ada hanya kerugian dan penyesalan.”</li>
+        <li>“Percayalah, berhenti judi hari ini akan jadi keputusan terbaik dalam hidupmu.”</li>
+        <li>“Kebiasaan baik akan membawa bahagia, jauhi judi dan mulailah kebiasaan baru yang positif.”</li>
+      </ul>
+
+      <div class="highlight-warning">
+        Ingat, judi hanya membawa kehancuran. Mulailah langkah baru! Hidup tanpa judi adalah hidup yang penuh makna dan harapan.
+      </div>
+
+      <div class="aksi-section">
+        <span class="aksi-title">Aksi Nyata & Sumber Bantuan:</span><br>
+        <a href="https://www.instagram.com/antijudi.id?igsh=amxnMzRpeTgyb2oz" target="_blank" rel="noopener" class="aksi-link">Instagram Anti Judi Indonesia</a>
+        <a href="https://dkisp.tarakankota.go.id/yuk-laporkan-judi-online/" target="_blank" rel="noopener" class="aksi-link">Laporkan Judi Online</a>
+        <a href="https://rgrfm.tulungagung.go.id/tips-agar-tidak-terjebak-dalam-judi-online/" target="_blank" rel="noopener" class="aksi-link">Tips Agar Tidak Terjebak Judi Online</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    &copy; <span id="year"></span> Gerakan Stop Judi &middot; Semangat Hidup Tanpa Judi
+  </footer>
+
+  <script>
+    // Page navigation
+    const btnSambutan = document.getElementById('btnSambutan');
+    const btnNasehat = document.getElementById('btnNasehat');
+    const sectionSambutan = document.getElementById('sectionSambutan');
+    const sectionNasehat = document.getElementById('sectionNasehat');
+    btnSambutan.onclick = function() {
+      sectionSambutan.style.display = '';
+      sectionNasehat.style.display = 'none';
+      btnSambutan.classList.add('active');
+      btnNasehat.classList.remove('active');
+      window.scrollTo({top:0, behavior:'smooth'});
+    }
+    btnNasehat.onclick = function() {
+      sectionSambutan.style.display = 'none';
+      sectionNasehat.style.display = '';
+      btnNasehat.classList.add('active');
+      btnSambutan.classList.remove('active');
+      window.scrollTo({top:0, behavior:'smooth'});
+    }
+    // Theme toggler
+    const toggleTheme = document.getElementById('toggleTheme');
+    let dark = true;
+    toggleTheme.onclick = function() {
+      dark = !dark;
+      document.body.setAttribute('data-theme', dark ? 'dark' : 'light');
+      toggleTheme.textContent = dark ? "☀️" : "🌙";
+    }
+    // Year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Animasi masuk web (untuk smooth reload di mobile)
+    window.addEventListener('pageshow', function(e){
+      document.body.style.opacity = '0';
+      setTimeout(()=>document.body.style.opacity = '1', 15);
+    });
+  </script>
+</body>
+</html>
